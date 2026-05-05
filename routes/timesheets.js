@@ -25,7 +25,8 @@ router.post("/", async (req, res) => {
 
   const t = await Timesheet.create({
     week,
-    dateRange,
+    startDate,
+    endDate,
     status,
   });
 
