@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
 
 // POST /api/timesheets
 router.post("/", async (req, res) => {
-  const { week, dateRange, status } = req.body;
+  const { week, startDate, endDate,status } = req.body;
 
   const t = await Timesheet.create({
     week,
@@ -32,7 +32,8 @@ router.post("/", async (req, res) => {
   res.status(201).json({
     id: t._id.toString(),
     week: t.week,
-    dateRange: t.dateRange,
+    startDate: t.dateRange,
+    endDate:t.endDate,
     status: t.status,
   });
 });
@@ -47,7 +48,8 @@ router.put("/:id", async (req, res) => {
   res.json({
     id: t._id.toString(),
     week: t.week,
-    dateRange: t.dateRange,
+    startDate: t.dateRange,
+    endDate:t.endDate,
     status: t.status,
   });
 });

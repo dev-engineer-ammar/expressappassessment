@@ -20,7 +20,9 @@ const mongoose = require("mongoose");
 const timesheetSchema = new mongoose.Schema(
   {
     week: { type: Number, required: true },
-    dateRange: { type: String, required: true },
+     startDate: { type: String, required: true },
+    endDate: { type: String, required: true },
+
     status: {
       type: String,
       enum: ["COMPLETED", "INCOMPLETE", "MISSING"],
