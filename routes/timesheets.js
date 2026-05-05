@@ -4,7 +4,7 @@ const protect = require("../middleware/auth");
 
 const router = express.Router();
 
-router.use(protect);
+// router.use(protect);
 
 // GET /api/timesheets
 router.get("/", async (req, res) => {
