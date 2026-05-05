@@ -8,7 +8,7 @@ const router = express.Router();
 
 // GET /api/timesheets
 router.get("/", async (req, res) => {
-  const items = await Timesheet.find({ user: req.user._id }).sort({ week: 1 });
+  const items = await Timesheet.find();
   res.json({
     timesheets: items.map((t) => ({
       id: t._id.toString(),
