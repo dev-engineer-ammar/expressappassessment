@@ -13,7 +13,8 @@ router.get("/", async (req, res) => {
     timesheets: items.map((t) => ({
       id: t._id.toString(),
       week: t.week,
-      dateRange: t.dateRange,
+     startDate: t.startDate,
+    endDate:t.endDate,
       status: t.status,
     })),
   });
@@ -33,7 +34,7 @@ router.post("/", async (req, res) => {
   res.status(201).json({
     id: t._id.toString(),
     week: t.week,
-    startDate: t.dateRange,
+    startDate: t.startDate,
     endDate:t.endDate,
     status: t.status,
   });
@@ -49,7 +50,7 @@ router.put("/:id", async (req, res) => {
   res.json({
     id: t._id.toString(),
     week: t.week,
-    startDate: t.dateRange,
+    startDate: t.startDate,
     endDate:t.endDate,
     status: t.status,
   });
