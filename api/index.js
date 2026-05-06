@@ -29,6 +29,8 @@ app.use(async (req, res, next) => {
 app.get("/", (req, res) => res.json({ status: "ok", message: "API running" }));
 app.use("/api/auth", authRoutes);
 app.use("/api/timesheets", timesheetRoutes);
+app.use("/api/entries", require("./routes/entries"));
+app.use("/api/projects", require("./routes/projects"));
 
 if (require.main === module) {
   const PORT = process.env.PORT || 5000;

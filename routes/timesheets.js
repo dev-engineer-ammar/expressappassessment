@@ -19,43 +19,100 @@ const router = express.Router();
 //     })),
 //   });
 // });
+// router.get("/", async (req, res) => {
+//   try {
+//     // 1. Get parameters from query string (with defaults)
+//     const page = parseInt(req.query.page) || 1;
+//     const limit = parseInt(req.query.limit) || 5;
+//     const status = req.query.status;
+//     const sort = req.query.sort === "desc" ? -1 : 1;
+
+//     // 2. Build the filter object
+//     const query = {};
+//     if (status && status !== "ALL") {
+//       query.status = status;
+//     }
+
+//     // 3. Execute query with pagination
+//     const items = await Timesheet.find(query)
+//       .sort({ week: sort }) // Sort by week number
+//       .skip((page - 1) * limit) // Skip items from previous pages
+//       .limit(limit); // Only take the amount for the current page
+
+//     // 4. Get total count for the frontend to calculate totalPages
+//     const total = await Timesheet.countDocuments(query);
+
+//     res.json({
+//       total,
+//       page,
+//       pageSize: limit,
+//       timesheets: items.map((t) => ({
+//         id: t._id.toString(),
+//         weekNumber: t.week, // Matches your frontend interface
+//         startDate: t.startDate,
+//         endDate: t.endDate,
+//         status: t.status,
+//       })),
+//     });
+//   } catch (error) {
+//     res.status(500).json({ message: "Error fetching timesheets" });
+//   }
+// });
+
 router.get("/", async (req, res) => {
   try {
-    // 1. Get parameters from query string (with defaults)
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 5;
+    const limit = parseInt(req.query.pageSize) || 5;
     const status = req.query.status;
     const sort = req.query.sort === "desc" ? -1 : 1;
 
-    // 2. Build the filter object
     const query = {};
     if (status && status !== "ALL") {
       query.status = status;
     }
 
-    // 3. Execute query with pagination
     const items = await Timesheet.find(query)
-      .sort({ week: sort }) // Sort by week number
-      .skip((page - 1) * limit) // Skip items from previous pages
-      .limit(limit); // Only take the amount for the current page
+      .sort({ week: sort })
+      .skip((page - 1) * limit)
+      .limit(limit);
 
-    // 4. Get total count for the frontend to calculate totalPages
     const total = await Timesheet.countDocuments(query);
 
     res.json({
-      total,
-      page,
-      pageSize: limit,
-      timesheets: items.map((t) => ({
+      items: items.map((t) => ({
         id: t._id.toString(),
-        weekNumber: t.week, // Matches your frontend interface
+        weekNumber: t.week,
         startDate: t.startDate,
         endDate: t.endDate,
         status: t.status,
+        totalHours: 0,
+        targetHours: 40,
       })),
+      total,
     });
   } catch (error) {
     res.status(500).json({ message: "Error fetching timesheets" });
+  }
+});
+
+// GET /api/timesheets/:id
+router.get("/:id", async (req, res) => {
+  try {
+    const t = await Timesheet.findById(req.params.id);
+
+    if (!t) return res.status(404).json({ message: "Not found" });
+
+    res.json({
+      id: t._id.toString(),
+      weekNumber: t.week,
+      startDate: t.startDate,
+      endDate: t.endDate,
+      status: t.status,
+      totalHours: 0,
+      targetHours: 40,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching timesheet" });
   }
 });
 
