@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 
 const authRoutes = require("../routes/auth");
 const timesheetRoutes = require("../routes/timesheets");
-const entryRoutes = require("../routes/entries");
+const entryRoutes = require("../routes/changeEnts");
 const projectRoutes = require("../routes/projects");
 
 
