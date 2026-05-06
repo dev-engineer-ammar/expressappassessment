@@ -1,5 +1,5 @@
 const express = require("express");
-const changeEnt = require("../models/ChangeEnt");
+const Entry = require("../models/Entry");
 
 const router = express.Router();
 
@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
   try {
     const { timesheetId } = req.query;
 
-    const entries = await changeEnt.find({ timesheetId });
+    const entries = await Entry.find({ timesheetId });
 
     res.json(
       entries.map((e) => ({
