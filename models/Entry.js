@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const entrySchema = new mongoose.Schema({
-  timesheetId: { type: mongoose.Schema.Types.ObjectId, ref: "Timesheet" },
   date: String,
   taskName: String,
   hours: Number,
@@ -10,4 +9,4 @@ const entrySchema = new mongoose.Schema({
   description: String,
 });
 
-module.exports = mongoose.model("EntryData", entrySchema);
+module.exports = mongoose.model("Entry", entrySchema);
